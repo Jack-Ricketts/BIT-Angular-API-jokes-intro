@@ -17,22 +17,27 @@ export class JokeComponent implements OnInit {
     safe:false,
     type:''
   };
+  public categories:string[]=[];
+  public selectedCategory:string="";
 
-  public isLoading:boolean=true;
+  public isLoading:boolean=false;
   public isError:boolean=false;
+  public noJoke:boolean=true;
 
   constructor(private jokeService:JokeService) {  }
 
 
   ngOnInit(): void {
-    this.loadJoke();
+   // this.loadJoke();
+    this.categories=this.jokeService.getCategories();
   }
 
   private loadJoke(){
-    this.jokeService.loadJoke().subscribe({
+    this.jokeService.loadJoke(this.selectedCategory).subscribe({
       next:(response)=>{
         this.joke=response;
         this.isLoading=false;
+        this.noJoke=false;
       },
       error:(error)=>{
         this.isLoading=false;

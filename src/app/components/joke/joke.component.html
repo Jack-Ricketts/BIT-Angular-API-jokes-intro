@@ -1,28 +1,47 @@
-<div class="card" *ngIf="!isLoading && !isError">
-    <div class="card-body">
-        {{ joke.joke }}
-         <hr>
-         <div>
-            Category: <b>{{ joke.category }}</b> 
-         </div>
-         <div>
-            ID: <b> {{ joke.id }}</b>
-         </div>
-         <hr>
-         <button class="btn btn-primary" (click)="nextJoke()">Next Joke</button>
-    </div>
-</div>
-<div class="card" *ngIf="isLoading">
-    <div class="card-body">
-        <div class="alert alert-info">
-            Loading...
+<div class="row">
+    <div class="col-md-6 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="" class="form-label">Pasirinkite kategoriją</label>
+                    <select name="category" id="category" class="form-control" [(ngModel)]="selectedCategory">
+                        <option *ngFor="let category of categories" [value]="category" >{{category}}</option>
+                    </select>
+
+                </div>
+                <button class="btn btn-primary" (click)="nextJoke()" [disabled]='selectedCategory==""'>Rodyti</button>
+            </div>
         </div>
     </div>
-</div>
-<div class="card" *ngIf="isError">
-    <div class="card-body">
-        <div class="alert alert-info">
-            Error...
+    <div class="col-md-6 mt-5">
+        <div class="card" *ngIf="!isLoading && !isError && !noJoke">
+            <div class="card-body">
+                {{ joke.joke }}
+                <hr>
+                <div>
+                    Category: <b>{{ joke.category }}</b> 
+                </div>
+                <div>
+                    ID: <b> {{ joke.id }}</b>
+                </div>
+                <hr>
+                <button class="btn btn-primary" (click)="nextJoke()">Next Joke</button>
+            </div>
+        </div>
+        <div class="card" *ngIf="isLoading">
+            <div class="card-body">
+                <div class="alert alert-info">Loading ...</div>
+            </div>
+        </div>
+        <div class="card" *ngIf="isError">
+            <div class="card-body">
+                <div class="alert alert-danger">Įvyko klaida. Bandykite vėliau.</div>
+            </div>
+        </div>
+        <div class="card" *ngIf="noJoke">
+            <div class="card-body">
+                <div class="alert alert-warning">Prašome pasirinkti kategoriją ir paspausti rodyti.</div>
+            </div>
         </div>
     </div>
 </div>
